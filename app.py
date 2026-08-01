@@ -2,38 +2,63 @@ import streamlit as st
 import requests
 
 st.set_page_config(
-    page_title="SouHQ - Inteligência em Recrutamento", 
+    page_title="SouHQ - Inteligência em Recrutamento com 100% de Feedback", 
     page_icon="🚀",
     layout="wide"
 )
 
-# Estilização CSS personalizada para dar o toque moderno SaaS B2B
+# Estilização CSS personalizada com a identidade visual oficial SouHQ (Preto e Verde)
 st.markdown("""
     <style>
-    .main {
-        background-color: #0f172a;
-        color: #f8fafc;
+    /* Fundo geral da aplicação */
+    .stApp {
+        background-color: #0b0f0e;
+        color: #f1f5f9;
     }
+    
+    /* Títulos principais */
     .hero-title {
-        font-size: 3rem;
+        font-size: 2.6rem;
         font-weight: 800;
         color: #ffffff;
         text-align: center;
         margin-bottom: 1rem;
     }
     .hero-subtitle {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         color: #94a3b8;
         text-align: center;
         margin-bottom: 2.5rem;
     }
+    
+    /* Cards de valor */
     .card-box {
-        background-color: #1e293b;
-        border: 1px solid #334155;
+        background-color: #121a17;
+        border: 1px solid #1e332b;
         padding: 2rem;
         border-radius: 12px;
         text-align: center;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    .card-box:hover {
+        border-color: #10b981;
+    }
+    
+    /* Customização de botões primários do Streamlit para o verde SouHQ */
+    .stButton > button {
+        background-color: #10b981;
+        color: #0b0f0e;
+        font-weight: 700;
+        border-radius: 8px;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        transition: all 0.2s ease;
+    }
+    .stButton > button:hover {
+        background-color: #059669;
+        color: #ffffff;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -46,44 +71,44 @@ if "logado" not in st.session_state:
 if "usuario" not in st.session_state:
     st.session_state["usuario"] = ""
 if "tipo_perfil" not in st.session_state:
-    st.session_state["tipo_perfil"] = None # "candidato" ou "empresa"
+    st.session_state["tipo_perfil"] = None
 
 # ==========================================
-# HOME PAGE / LANDING PAGE (Inpiração InHire)
+# HOME PAGE / LANDING PAGE (Identidade SouHQ)
 # ==========================================
 if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
     
     # Hero Section
     st.markdown('<p class="hero-title">Menos esforço operacional, mais inteligência para contratar melhor. 🚀</p>', unsafe_allow_html=True)
-    st.markdown('<p class="hero-subtitle">A plataforma definitiva da SouHQ que conecta talentos de alta performance e empresas através de Inteligência Artificial avançada.</p>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-subtitle">A plataforma definitiva da SouHQ que conecta talentos de alta performance e empresas através de Inteligência Artificial avançada, tendo como maior pilar o compromisso inegociável de 100% de feedback aos candidatos.</p>', unsafe_allow_html=True)
     
     st.write("")
     st.write("")
 
-    # Seções de Benefícios / Cards de Valor
+    # Seções de Benefícios / Cards de Valor (Incluindo 100% de Feedback)
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
             <div class="card-box">
-                <h3>🤖 Atração com IA</h3>
-                <p style="color: #94a3b8;">Leitura instantânea de currículos em PDF e estruturação automática de dados e experiências.</p>
+                <h3 style="color: #10b981;">💬 100% de Feedback</h3>
+                <p style="color: #94a3b8;">Nenhum talento fica sem resposta. Garantimos transparência e retorno estruturado para todos os participantes do processo.</p>
             </div>
         """, unsafe_allow_html=True)
         
     with col2:
         st.markdown("""
             <div class="card-box">
-                <h3>⚡ Triagem Automatizada</h3>
-                <p style="color: #94a3b8;">Elimine tarefas repetitivas e foque nos candidatos com maior aderência cultural e técnica.</p>
+                <h3 style="color: #10b981;">⚡ Triagem Automatizada</h3>
+                <p style="color: #94a3b8;">Elimine tarefas repetitivas e foque nos candidatos com maior aderência cultural e técnica através de IA de ponta.</p>
             </div>
         """, unsafe_allow_html=True)
         
     with col3:
         st.markdown("""
             <div class="card-box">
-                <h3>🎯 Match Inteligente</h3>
-                <p style="color: #94a3b8;">Cruzamento de requisitos da vaga com o perfil do candidato em segundos.</p>
+                <h3 style="color: #10b981;">🎯 Match Inteligente</h3>
+                <p style="color: #94a3b8;">Cruzamento absoluto entre os requisitos da vaga e o perfil detalhado do candidato em segundos.</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -92,7 +117,7 @@ if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
     st.divider()
     
     # Seção de Acesso Dinâmico (Escolha de Perfil)
-    st.markdown("<h3 style='text-align: center; margin-bottom: 2rem;'>Como você deseja acessar a SouHQ?</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; margin-bottom: 2rem; color: #ffffff;'>Como você deseja acessar a SouHQ?</h3>", unsafe_allow_html=True)
     
     col_a, col_b = st.columns(2)
     with col_a:
@@ -116,7 +141,7 @@ elif st.session_state["tipo_perfil"] == "candidato":
 
     if not st.session_state["logado"]:
         st.title("SouHQ - Portal do Candidato")
-        st.write("Faça login ou crie sua conta para estruturar seu currículo com inteligência artificial.")
+        st.write("Faça login ou crie sua conta para estruturar seu currículo com inteligência artificial e contar com nosso compromisso de 100% de feedback.")
 
         aba_login, aba_cadastro = st.tabs(["Entrar", "Criar Conta"])
 
@@ -148,7 +173,6 @@ elif st.session_state["tipo_perfil"] == "candidato":
                 else:
                     st.error("Preencha todos os campos.")
     else:
-        # Dashboard do Candidato com Experiências Dinâmicas
         st.sidebar.title("Painel do Candidato")
         st.sidebar.write(f"Logado como:\n*{st.session_state['usuario']}*")
         
@@ -255,6 +279,6 @@ elif st.session_state["tipo_perfil"] == "empresa":
         st.rerun()
 
     st.title("SouHQ - Portal Corporativo (Empresas)")
-    st.write("Bem-vindo ao painel de recrutamento inteligente. Cadastre suas vagas e gerencie o match de candidatos.")
+    st.write("Bem-vindo ao painel de recrutamento inteligente. Cadastre suas vagas e garanta o compromisso de 100% de feedback com nossa IA.")
     
     st.info("💡 Área da empresa pronta para receber o cadastro de vagas e o motor de match automático nas próximas etapas!")
