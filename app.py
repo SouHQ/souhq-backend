@@ -1,4 +1,4 @@
-mport streamlit as st
+import streamlit as st
 import requests
 
 st.set_page_config(
@@ -180,7 +180,7 @@ if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
         "Não prometemos a vaga para todo mundo. Não vendemos ilusões.\n\n"
         "O mercado é competitivo, e a negativa faz parte do jogo.\n\n"
         "O que nós não aceitamos é a falta de resposta.\n\n"
-        "Na SouHQ, cada candidatura é um voto de confiança. E cada voto de confiança merece uma devolutiva clara, transparente, técnica e humana. Se o tempo da empresa acabou, a nossa inteligência entra em ação para honrar o seu tempo.\n\n"
+        "Na SouHQ, cada candidatura é um voto de confiança. E cada voto de confiança merece uma devolutiva clara, transparente, técnica e humana. Se o tempo da empresa acabou, a nossa inteligência entra em action para honrar o seu tempo.\n\n"
         "Chega de esperar semanas por um e-mail que nunca vem.\n\n"
         "Chega de fechar processos no escuro.\n\n"
         "Chega de tratar seres humanos como meras linhas em uma planilha.\n\n"
@@ -316,7 +316,7 @@ elif st.session_state["tipo_perfil"] == "candidato":
                 cursos = st.text_area("Cursos e Certificações", value=cursos_str)
                 
                 linguas_list = dados.get("linguas", [])
-                linguas_str = ", ".join(linguas_list) if isinstance(linguas_list, list) else str(linguas_list)
+                linguas_str = ", ".join(linguas_list) if isinstance(linguas_list, list) else str(linguas_str)
                 linguas = st.text_input("Línguas / Idiomas", value=linguas_str)
                 
                 salvar_alteracoes = st.form_submit_button("Salvar Alterações do Perfil")
