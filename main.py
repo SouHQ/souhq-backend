@@ -17,7 +17,7 @@ app.add_middleware(
 )
 
 # Inicializa o cliente da Groq com a sua chave
-client = Groq(api_key="SUA_CHAVE_GROQ_AQUI")
+client = Groq(api_key="Gsk_W9UR0gJTlb7PjH4vSrakWGdyb3FYMyrDgXgRXYuieNksognRyxJS")
 
 class CandidatoPerfil(BaseModel):
     nome: str
