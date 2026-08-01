@@ -16,7 +16,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-client = Groq(api_key="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")
+# Inicializa o cliente da Groq com a sua chave
+client = Groq(api_key="SUA_CHAVE_GROQ_AQUI")
+
+class CandidatoPerfil(BaseModel):
+    nome: str
+    email: str
+    telefone: str
+    endereco: str
+    resumo: str
+    habilidades: list[str]
+    experiencia_profissional: list[dict]
+    nivel_ensino: str
+    cursos: list[str]
+    linguas: list[str]
 
 @app.post("/extrair-curriculo/")
 async def extrair_curriculo(file: UploadFile = File(...)):
@@ -43,10 +56,10 @@ async def extrair_curriculo(file: UploadFile = File(...)):
         - endereco (string, cidade/estado se houver)
         - resumo (string breve sobre o perfil)
         - habilidades (lista de strings)
-        - experiencia_profissional (string detalhando as ultimas experiências ou empresas, cargos e periodos)
-        - nivel_ensino (string informando a escolaridade, ex: Graduação, Pós-graduação, Ensino Médio)
-        - cursos (lista de strings com cursos extracurriculares ou certificações)
-        - linguas (lista de strings com os idiomas e níveis encontrados)
+        - experiencia_profissional (uma lista de objetos JSON, onde cada objeto tem as chaves exatas: "empresa_cargo", "periodo", "escopo")
+        - nivel_ensino (string informando a escolaridade)
+        - cursos (lista de strings)
+        - linguas (lista de strings)
 
         Currículo:
         {texto_curriculo[:4000]}
