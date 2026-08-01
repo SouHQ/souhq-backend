@@ -1,14 +1,14 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+rom fastapi import FastAPI, File, UploadFile, HTTPException
 from pydantic import BaseModel
 import pypdf
 import io
 import os
-from openai import OpenAI
+from groq import Groq
 
-app = FastAPI(title="SouHQ Backend - Motor de IA & SLA")
+app = FastAPI(title="SouHQ Backend - Motor de IA Gratuito")
 
-# Inicialize o cliente da OpenAI (certifique-se de configurar sua chave de API nas variáveis de ambiente)
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+# Inicializa o cliente da Groq com a chave gratuita
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 class DevolutivaResponse(BaseModel):
     candidato: str
@@ -19,7 +19,7 @@ class DevolutivaResponse(BaseModel):
 async def analisar_curriculo(file: UploadFile = File(...), vaga_requisitos: str = "Desenvolvedor Python Pleno"):
     if not file.filename.endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Apenas arquivos PDF são aceitos.")
-    
+
     try:
         # 1. Leitura e extração do texto do PDF enviado
         contents = await file.read()
@@ -33,33 +33,30 @@ async def analisar_curriculo(file: UploadFile = File(...), vaga_requisitos: str 
         if not texto_curriculo.strip():
             raise HTTPException(status_code=400, detail="Não foi possível extrair texto do PDF.")
 
-        # 2. Engenharia de Prompt para o Motor de IA da SouHQ
-        prompt_sistema = (
-            "Você é o motor de inteligência artificial da SouHQ, uma HRtech focada em eliminar o ghosting "
-            "e fornecer devolutivas técnicas transparentes para candidatos. Analise o currículo fornecido "
-            "em relação aos requisitos da vaga e produza um relatório técnico construtivo, direto, "
-            "destacando pontos fortes e lacunas técnicas de forma profissional."
-        )
-        
-        prompt_usuario = f"Requisitos da Vaga: {vaga_requisitos}\n\nCurrículo do Candidato:\n{texto_curriculo}"
+        # 2. Chamada para a IA gratuita da Groq
+        prompt = f"""
+        Analise o currículo abaixo com base nos requisitos da vaga ({vaga_requisitos}).
+        Retorne estritamente um JSON com os campos:
+        - "candidato": Nome do candidato encontrado no currículo.
+        - "status": "Aprovado" ou "Reprovado".
+        - "devolutiva_tecnica": Um parecer detalhado justificando a decisão com base nas competências encontradas.
 
-        # 3. Chamada à API de IA
-        response = client.chat.completions.create(
-            model="gpt-4o",
+        Currículo:
+        {texto_curriculo}
+        """
+
+        chat_completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
             messages=[
-                {"role": "system", "content": prompt_sistema},
-                {"role": "user", "content": prompt_usuario}
+                {"role": "system", "content": "Você é um especialista em RH e recrutamento técnico."},
+                {"role": "user", "content": prompt}
             ],
-            temperature=0.3,
+            response_format={"type": "json_object"}
         )
-        
-        devolutiva_gerada = response.choices[0].message.content
 
-        return {
-            "candidato": file.filename,
-            "status": "Processado com Sucesso",
-            "devolutiva_tecnica": devolutiva_gerada
-        }
+        import json
+        resultado_ia = json.loads(chat_completion.choices[0].message.content)
+        return resultado_ia
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno ao processar o currículo: {str(e)}")
