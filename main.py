@@ -16,16 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Inicializa o cliente da Groq com a sua chave
-client = Groq(api_key="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")
-
-class CandidatoPerfil(BaseModel):
-    nome: str
-    email: str
-    telefone: str
-    endereco: str
-    resumo: str
-    habilidades: list[str]
+client = Groq(api_key="SUA_CHAVE_GROQ_AQUI")
 
 @app.post("/extrair-curriculo/")
 async def extrair_curriculo(file: UploadFile = File(...)):
@@ -45,13 +36,17 @@ async def extrair_curriculo(file: UploadFile = File(...)):
             raise HTTPException(status_code=400, detail="Não foi possível extrair texto do PDF.")
 
         prompt = f"""
-        Analise o currículo abaixo e extraia as seguintes informações em formato JSON estrito:
+        Analise o currículo abaixo e extraia as seguintes informações em formato JSON estrito contendo exatamente estas chaves:
         - nome (string)
         - email (string)
         - telefone (string)
         - endereco (string, cidade/estado se houver)
         - resumo (string breve sobre o perfil)
         - habilidades (lista de strings)
+        - experiencia_profissional (string detalhando as ultimas experiências ou empresas, cargos e periodos)
+        - nivel_ensino (string informando a escolaridade, ex: Graduação, Pós-graduação, Ensino Médio)
+        - cursos (lista de strings com cursos extracurriculares ou certificações)
+        - linguas (lista de strings com os idiomas e níveis encontrados)
 
         Currículo:
         {texto_curriculo[:4000]}
