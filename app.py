@@ -7,7 +7,7 @@ st.title("📄 SouHQ - Analisador Inteligente de Currículos")
 st.write("Faça o upload de um currículo em PDF para realizar a triagem automática com Inteligência Artificial.")
 
 # URL do seu backend no Render
-API_URL = "https://souhq-backend.onrender.com/analisar-curriculo"
+API_URL = "https://souhq-backend.onrender.com/api/analisar-curriculo/"
 
 uploaded_file = st.file_uploader("Escolha um arquivo PDF", type=["pdf"])
 
