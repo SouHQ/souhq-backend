@@ -28,7 +28,6 @@ if not st.session_state["logado"]:
         
         if st.button("Entrar"):
             if email_login and senha_login:
-                # Simulação de login bem-sucedido (depois conectamos ao banco de dados)
                 st.session_state["logado"] = True
                 st.session_state["usuario"] = email_login
                 st.success("Login realizado com sucesso!")
@@ -75,7 +74,7 @@ else:
 
     if uploaded_file is not None:
         if st.button("Processar Currículo com IA"):
-            with st.spinner("Lendo documento e extraindo informações..."):
+            with st.spinner("Lendo documento e extraindo informações completas..."):
                 files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "application/pdf")}
                 try:
                     response = requests.post(f"{BACKEND_URL}/extrair-curriculo/", files=files)
@@ -88,13 +87,13 @@ else:
                 except Exception as e:
                     st.error(f"Não foi possível conectar ao backend: {e}")
 
-    # Formulário de Revisão Editável (aparece após processar o CV ou se já houver dados)
+    # Formulário de Revisão Editável Expandido
     if "dados_cv" in st.session_state:
         dados = st.session_state["dados_cv"]
         
         st.divider()
         st.subheader("📝 Revisão de Dados do Perfil")
-        st.write("Faça os ajustes necessários e clique em salvar para atualizar seu cadastro na plataforma.")
+        st.write("Ajuste os dados extraídos pela IA e salve seu perfil completo na plataforma.")
 
         with st.form("form_perfil_candidato"):
             nome = st.text_input("Nome Completo", value=dados.get("nome", ""))
@@ -106,6 +105,18 @@ else:
             hab_str = ", ".join(dados.get("habilidades", []))
             habilidades = st.text_input("Habilidades (separadas por vírgula)", value=hab_str)
             
+            # Novos campos expandidos
+            experiencia = st.text_area("Experiência Profissional", value=dados.get("experiencia_profissional", ""))
+            ensino = st.text_input("Nível de Ensino / Escolaridade", value=dados.get("nivel_ensino", ""))
+            
+            cursos_list = dados.get("cursos", [])
+            cursos_str = ", ".join(cursos_list) if isinstance(cursos_list, list) else str(cursos_list)
+            cursos = st.text_area("Cursos e Certificações", value=cursos_str)
+            
+            linguas_list = dados.get("linguas", [])
+            linguas_str = ", ".join(linguas_list) if isinstance(linguas_list, list) else str(linguas_list)
+            linguas = st.text_input("Línguas / Idiomas", value=linguas_str)
+            
             salvar_alteracoes = st.form_submit_button("Salvar Alterações do Perfil")
             if salvar_alteracoes:
-                st.success("Perfil atualizado e salvo com sucesso na SouHQ! 🚀")
+                st.success("Perfil completo atualizado e salvo com sucesso na SouHQ! 🚀")
