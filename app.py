@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Estilização CSS personalizada mantendo a identidade visual e alinhamento do logo
+# Estilização CSS personalizada para remover margens e integrar o logo perfeitamente
 st.markdown("""
     <style>
     /* Fundo geral da aplicação */
@@ -16,13 +16,14 @@ st.markdown("""
         color: #f1f5f9;
     }
     
-    /* Container centralizado para o Logo oficial */
-    .logo-container {
+    /* Centralização perfeita e ajuste de margem para a imagem do logo */
+    [data-testid="stImage"] {
         display: flex;
         justify-content: center;
-        align-items: center;
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: -10px;
+    }
+    [data-testid="stImage"] img {
+        background-color: transparent !important;
     }
     
     /* Títulos principais */
@@ -31,6 +32,7 @@ st.markdown("""
         font-weight: 800;
         color: #ffffff;
         text-align: center;
+        margin-top: 0rem;
         margin-bottom: 0.8rem;
     }
     .hero-subtitle {
@@ -98,11 +100,11 @@ if "tipo_perfil" not in st.session_state:
 # ==========================================
 if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
     
-    # Exibição fiel e proporcional do Logo Oficial SouHQ
-    col_logo1, col_logo2, col_logo3 = st.columns([1, 1.3, 1])
+    # Exibição fiel do Logo Oficial SouHQ centralizado
+    col_logo1, col_logo2, col_logo3 = st.columns([1, 1.2, 1])
     with col_logo2:
         try:
-            st.image("logo_souhq.png", width=380)
+            st.image("logo_souhq.png", width=360)
         except:
             st.markdown("<h1 style='text-align: center; color: #ffffff; font-weight: 900; letter-spacing: -1px;'>Sou<span style='color: #39FF14;'>HQ</span>✓</h1>", unsafe_allow_html=True)
 
