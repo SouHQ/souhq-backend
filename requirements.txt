@@ -1,7 +1,4 @@
+groq
+pypdf
 fastapi
 uvicorn
-pypdf
-openai
-pydantic
-python-multipart
-streamlit
