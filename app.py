@@ -18,24 +18,35 @@ st.markdown("""
     
     /* Títulos principais */
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 2.3rem;
         font-weight: 800;
         color: #ffffff;
         text-align: center;
-        margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
     }
     .hero-subtitle {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
         color: #94a3b8;
         text-align: center;
-        margin-bottom: 2.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    /* Seção de Pilares / Título secundário */
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #39FF14;
+        text-align: center;
+        margin-top: 2rem;
+        margin-bottom: 1.5rem;
+        letter-spacing: 1px;
     }
     
     /* Cards de valor */
     .card-box {
         background-color: #121a17;
         border: 1px solid #1e332b;
-        padding: 2rem;
+        padding: 1.8rem;
         border-radius: 12px;
         text-align: center;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
@@ -78,37 +89,36 @@ if "tipo_perfil" not in st.session_state:
 # ==========================================
 if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
     
-    # Hero Section com os novos textos oficiais
+    # Hero Section
     st.markdown('<p class="hero-title">SouHQ: A Nova Era das HRtechs & Soluções Inteligentes</p>', unsafe_allow_html=True)
     st.markdown('<p class="hero-subtitle">A SouHQ garante feedback técnico para 100% dos candidatos. Sem silêncio. Apenas respeito.</p>', unsafe_allow_html=True)
     
-    st.write("")
-    st.write("")
+    # Seção dos 3 Pilares com o cabeçalho exato solicitado
+    st.markdown('<p class="section-title">A Tecnologia por Trás do Respeito</p>', unsafe_allow_html=True)
 
-    # Seções de Benefícios / Pilares atualizados com os textos exatos
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
             <div class="card-box">
-                <h3 style="color: #39FF14; font-size: 1.1rem; margin-bottom: 1rem;">📄 ESTRUTURAÇÃO DE PERFIL</h3>
-                <p style="color: #94a3b8; font-size: 0.95rem;">Leitura instantânea e estruturação de currículos e portfólios no momento da candidatura.</p>
+                <h3 style="color: #39FF14; font-size: 1.05rem; margin-bottom: 1rem;">📄 PDF PARSER AUTOMATIZADO</h3>
+                <p style="color: #94a3b8; font-size: 0.92rem;">Leitura instantânea e estruturação de currículos e portfólios no momento da candidatura.</p>
             </div>
         """, unsafe_allow_html=True)
         
     with col2:
         st.markdown("""
             <div class="card-box">
-                <h3 style="color: #39FF14; font-size: 1.1rem; margin-bottom: 1rem;">🤖 DEVOLUTIVA TÉCNICA POR IA</h3>
-                <p style="color: #94a3b8; font-size: 0.95rem;">Inteligência artificial treinada para gerar análises técnicas reais e construtivas para 100% dos candidatos.</p>
+                <h3 style="color: #39FF14; font-size: 1.05rem; margin-bottom: 1rem;">🤖 DEVOLUTIVA TÉCNICA POR IA</h3>
+                <p style="color: #94a3b8; font-size: 0.92rem;">Inteligência artificial treinada para gerar análises técnicas reais e construtivas para 100% dos candidatos.</p>
             </div>
         """, unsafe_allow_html=True)
         
     with col3:
         st.markdown("""
             <div class="card-box">
-                <h3 style="color: #39FF14; font-size: 1.1rem; margin-bottom: 1rem;">⏱️ GARANTIA DE SLA</h3>
-                <p style="color: #94a3b8; font-size: 0.95rem;">Cronômetro e pipeline em tempo real, eliminando o silêncio e garantindo transparência total.</p>
+                <h3 style="color: #39FF14; font-size: 1.05rem; margin-bottom: 1rem;">⏱️ GARANTIA DE SLA (TIME-TO-RESPECT)</h3>
+                <p style="color: #94a3b8; font-size: 0.92rem;">Cronômetro e pipeline em tempo real, eliminando o silêncio e garantindo transparência total.</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -117,7 +127,7 @@ if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
     st.divider()
     
     # Seção de Acesso Dinâmico (Escolha de Perfil)
-    st.markdown("<h3 style='text-align: center; margin-bottom: 2rem; color: #ffffff;'>Como você deseja acessar a SouHQ?</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; margin-bottom: 1.5rem; color: #ffffff;'>Como você deseja acessar a SouHQ?</h3>", unsafe_allow_html=True)
     
     col_a, col_b = st.columns(2)
     with col_a:
