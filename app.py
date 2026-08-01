@@ -57,6 +57,39 @@ st.markdown("""
         border-color: #39FF14;
     }
     
+    /* Bloco do Manifesto Oficial SouHQ */
+    .manifesto-box {
+        background-color: #121a17;
+        border-left: 4px solid #39FF14;
+        border-top: 1px solid #1e332b;
+        border-right: 1px solid #1e332b;
+        border-bottom: 1px solid #1e332b;
+        padding: 2.5rem;
+        border-radius: 0 12px 12px 0;
+        margin-top: 3rem;
+        margin-bottom: 2rem;
+    }
+    .manifesto-heading {
+        color: #39FF14;
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin-bottom: 1.2rem;
+        letter-spacing: 0.5px;
+    }
+    .manifesto-subheading {
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-top: 1.5rem;
+        margin-bottom: 0.6rem;
+    }
+    .manifesto-text {
+        color: #cbd5e1;
+        font-size: 0.98rem;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+    }
+    
     /* Customização de botões primários do Streamlit para o verde #39FF14 da SouHQ */
     .stButton > button {
         background-color: #39FF14;
@@ -89,11 +122,21 @@ if "tipo_perfil" not in st.session_state:
 # ==========================================
 if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
     
+    # Exibição do Logo Oficial no Topo (Centralizado e proporcional)
+    col_logo1, col_logo2, col_logo3 = st.columns([1, 1.2, 1])
+    with col_logo2:
+        # Nota: Você pode salvar a imagem oficial enviada como "logo_souhq.png" na pasta do projeto
+        try:
+            st.image("logo_souhq.png", use_container_width=True)
+        except:
+            # Fallback elegante caso a imagem ainda não esteja na pasta local
+            st.markdown("<h1 style='text-align: center; color: #ffffff; font-weight: 900; letter-spacing: -1px;'>Sou<span style='color: #39FF14;'>HQ</span>✓</h1>", unsafe_allow_html=True)
+
     # Hero Section
-    st.markdown('<p class="hero-title">SouHQ: A Nova Era das HRtechs & Soluções Inteligentes</p>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-title">A Nova Era das HRtechs & Soluções Inteligentes</p>', unsafe_allow_html=True)
     st.markdown('<p class="hero-subtitle">A SouHQ garante feedback técnico para 100% dos candidatos. Sem silêncio. Apenas respeito.</p>', unsafe_allow_html=True)
     
-    # Seção dos 3 Pilares com o cabeçalho exato solicitado
+    # Seção dos 3 Pilares
     st.markdown('<p class="section-title">A Tecnologia por Trás do Respeito</p>', unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
@@ -139,6 +182,44 @@ if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
         if st.button("🏢 Sou Empresa (Cadastrar Vagas e Recrutar)", use_container_width=True):
             st.session_state["tipo_perfil"] = "empresa"
             st.rerun()
+
+    # O MANIFESTO SOUHQ Oficial Logo Abaixo dos Botões de Acesso
+    st.markdown("""
+        <div class="manifesto-box">
+            <div class="manifesto-heading">📜 O MANIFESTO SOUHQ: RESPEITO NÃO TEM PRAZO DE VALIDADE.</div>
+            
+            <div class="manifesto-text">
+                O vácuo é a resposta mais covarde do mercado de trabalho.<br>
+                Ele destrói a autoconfiança. Tranca portas sem explicação. Transforma noites de estudo, currículos revisados e a ansiedade de uma entrevista em um silêncio ensurdecedor.<br>
+                <b>Quem inventou que isso era normal?</b><br>
+                Quem decidiu que o tempo de um lado vale ouro e o do outro não vale nada?<br>
+                Nós nos recusamos a aceitar que a busca por um ganha-pão seja tratada com desdém. Não aceitamos a frieza das caixas de e-mail automatizadas para o esquecimento, nem o desrespeito travestido de "falta de tempo".
+            </div>
+
+            <div class="manifesto-subheading">Aos recrutadores e profissionais de RH:</div>
+            <div class="manifesto-text">
+                Nós sabemos. A rotina de vocês é esmagadora.<br>
+                São centenas de telas, metas sufocantes, pilhas de currículos e pressões de todos os lados.<br>
+                Ninguém entra na área de Recursos Humanos para virar um carimbador de rejeições em massa. Vocês escolheram essa profissão para trabalhar com pessoas.<br>
+                Mas a tecnologia que deveria ajudar, afastou. Virou barreira.<br>
+                E a verdade é uma só, simples e inegável: <b>todo RH já foi candidato. E todo RH voltará a ser.</b><br>
+                A cadeira gira. O crachá muda. Mas a dignidade humana não pode depender de qual lado da mesa você está sentado hoje.
+            </div>
+
+            <div class="manifesto-subheading">O nosso compromisso com o mundo é um só: ZERO VÁCUO.</div>
+            <div class="manifesto-text">
+                Não prometemos a vaga para todo mundo. Não vendemos ilusões.<br>
+                O mercado é competitivo, e a negativa faz parte do jogo.<br>
+                O que nós não aceitamos é a falta de resposta.<br>
+                Na SouHQ, cada candidatura é um voto de confiança. E cada voto de confiança merece uma devolutiva clara, transparente, técnica e humana. Se o tempo da empresa acabou, a nossa inteligência entra em ação para honrar o seu tempo.<br><br>
+                Chega de esperar semanas por um e-mail que nunca vem.<br>
+                Chega de fechar processos no escuro.<br>
+                Chega de tratar seres humanos como meras linhas em uma planilha.<br><br>
+                <b>A SouHQ nasceu para devolver o respeito ao recrutamento.</b><br>
+                <span style="color: #39FF14; font-weight: 700;">Seja bem-vindo à era do Zero Vácuo.</span>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
 
 # ==========================================
 # FLUXO DE AUTENTICAÇÃO E PAINEL: CANDIDATO
