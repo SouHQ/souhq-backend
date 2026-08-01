@@ -1,4 +1,4 @@
-rom fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from pydantic import BaseModel
 import pypdf
 import io
