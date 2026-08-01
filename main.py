@@ -8,7 +8,7 @@ from groq import Groq
 app = FastAPI(title="SouHQ Backend - Motor de IA Gratuito")
 
 # Inicializa o cliente da Groq com a chave gratuita
-client = Groq(api_key="sua_chave_aqui")
+client = Groq(api_key="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")
 
 class DevolutivaResponse(BaseModel):
     candidato: str
