@@ -16,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-client = Groq(api_key="SUA_CHAVE_GROQ_AQUI")
+client = Groq(api_key="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")
 
 @app.post("/extrair-curriculo/")
 async def extrair_curriculo(file: UploadFile = File(...)):
