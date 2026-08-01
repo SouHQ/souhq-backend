@@ -1,27 +1,38 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import pypdf
 import io
-import os
+import json
 from groq import Groq
 
-app = FastAPI(title="SouHQ Backend - Motor de IA Gratuito")
+app = FastAPI(title="SouHQ Backend - Portal do Candidato")
 
-# Inicializa o cliente da Groq com a chave gratuita
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Inicializa o cliente da Groq com a sua chave
 client = Groq(api_key="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")
 
-class DevolutivaResponse(BaseModel):
-    candidato: str
-    status: str
-    devolutiva_tecnica: str
+class CandidatoPerfil(BaseModel):
+    nome: str
+    email: str
+    telefone: str
+    endereco: str
+    resumo: str
+    habilidades: list[str]
 
-@app.post("/api/analisar-curriculo/", response_model=DevolutivaResponse)
-async def analisar_curriculo(file: UploadFile = File(...), vaga_requisitos: str = "Desenvolvedor Python Pleno"):
+@app.post("/extrair-curriculo/")
+async def extrair_curriculo(file: UploadFile = File(...)):
     if not file.filename.endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Apenas arquivos PDF são aceitos.")
-
+    
     try:
-        # 1. Leitura e extração do texto do PDF enviado
         contents = await file.read()
         pdf_file = io.BytesIO(contents)
         reader = pypdf.PdfReader(pdf_file)
@@ -33,30 +44,27 @@ async def analisar_curriculo(file: UploadFile = File(...), vaga_requisitos: str 
         if not texto_curriculo.strip():
             raise HTTPException(status_code=400, detail="Não foi possível extrair texto do PDF.")
 
-        # 2. Chamada para a IA gratuita da Groq
         prompt = f"""
-        Analise o currículo abaixo com base nos requisitos da vaga ({vaga_requisitos}).
-        Retorne estritamente um JSON com os campos:
-        - "candidato": Nome do candidato encontrado no currículo.
-        - "status": "Aprovado" ou "Reprovado".
-        - "devolutiva_tecnica": Um parecer detalhado justificando a decisão com base nas competências encontradas.
+        Analise o currículo abaixo e extraia as seguintes informações em formato JSON estrito:
+        - nome (string)
+        - email (string)
+        - telefone (string)
+        - endereco (string, cidade/estado se houver)
+        - resumo (string breve sobre o perfil)
+        - habilidades (lista de strings)
 
         Currículo:
-        {texto_curriculo}
+        {texto_curriculo[:4000]}
         """
 
-        chat_completion = client.chat.completions.create(
+        completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
-            messages=[
-                {"role": "system", "content": "Você é um especialista em RH e recrutamento técnico."},
-                {"role": "user", "content": prompt}
-            ],
+            messages=[{"role": "user", "content": prompt}],
             response_format={"type": "json_object"}
         )
-
-        import json
-        resultado_ia = json.loads(chat_completion.choices[0].message.content)
-        return resultado_ia
+        
+        dados = json.loads(completion.choices[0].message.content)
+        return dados
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro interno ao processar o currículo: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
