@@ -4,3 +4,4 @@ pypdf
 openai
 pydantic
 python-multipart
+streamlit
