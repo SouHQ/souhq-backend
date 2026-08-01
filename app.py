@@ -7,13 +7,22 @@ st.set_page_config(
     layout="wide"
 )
 
-# Estilização CSS personalizada com a tipografia padrão do Streamlit e identidade visual SouHQ
+# Estilização CSS personalizada mantendo a identidade visual e alinhamento do logo
 st.markdown("""
     <style>
     /* Fundo geral da aplicação */
     .stApp {
         background-color: #0b0f0e;
         color: #f1f5f9;
+    }
+    
+    /* Container centralizado para o Logo oficial */
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
     }
     
     /* Títulos principais */
@@ -89,11 +98,11 @@ if "tipo_perfil" not in st.session_state:
 # ==========================================
 if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
     
-    # Exibição do Logo Oficial no Topo
-    col_logo1, col_logo2, col_logo3 = st.columns([1, 1.2, 1])
+    # Exibição fiel e proporcional do Logo Oficial SouHQ
+    col_logo1, col_logo2, col_logo3 = st.columns([1, 1.3, 1])
     with col_logo2:
         try:
-            st.image("logo_souhq.png", use_container_width=True)
+            st.image("logo_souhq.png", width=380)
         except:
             st.markdown("<h1 style='text-align: center; color: #ffffff; font-weight: 900; letter-spacing: -1px;'>Sou<span style='color: #39FF14;'>HQ</span>✓</h1>", unsafe_allow_html=True)
 
@@ -152,7 +161,7 @@ if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
     st.write("")
 
     # ==========================================
-    # O MANIFESTO SOUHQ (Com componentes nativos do Streamlit)
+    # O MANIFESTO SOUHQ (Com componentes nativos)
     # ==========================================
     st.markdown("---")
     st.markdown("### 📜 O MANIFESTO SOUHQ: RESPEITO NÃO TEM PRAZO DE VALIDADE.")
@@ -180,7 +189,7 @@ if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
         "Não prometemos a vaga para todo mundo. Não vendemos ilusões.\n\n"
         "O mercado é competitivo, e a negativa faz parte do jogo.\n\n"
         "O que nós não aceitamos é a falta de resposta.\n\n"
-        "Na SouHQ, cada candidatura é um voto de confiança. E cada voto de confiança merece uma devolutiva clara, transparente, técnica e humana. Se o tempo da empresa acabou, a nossa inteligência entra em action para honrar o seu tempo.\n\n"
+        "Na SouHQ, cada candidatura é um voto de confiança. E cada voto de confiança merece uma devolutiva clara, transparente, técnica e humana. Se o tempo da empresa acabou, a nossa inteligência entra em ação para honrar o seu tempo.\n\n"
         "Chega de esperar semanas por um e-mail que nunca vem.\n\n"
         "Chega de fechar processos no escuro.\n\n"
         "Chega de tratar seres humanos como meras linhas em uma planilha.\n\n"
@@ -316,7 +325,7 @@ elif st.session_state["tipo_perfil"] == "candidato":
                 cursos = st.text_area("Cursos e Certificações", value=cursos_str)
                 
                 linguas_list = dados.get("linguas", [])
-                linguas_str = ", ".join(linguas_list) if isinstance(linguas_list, list) else str(linguas_str)
+                linguas_str = ", ".join(linguas_list) if isinstance(linguas_list, list) else str(linguas_list)
                 linguas = st.text_input("Línguas / Idiomas", value=linguas_str)
                 
                 salvar_alteracoes = st.form_submit_button("Salvar Alterações do Perfil")
