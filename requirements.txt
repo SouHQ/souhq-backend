@@ -1,4 +1,5 @@
-groq
-pypdf
 fastapi
 uvicorn
+groq
+pypdf
+pydantic
