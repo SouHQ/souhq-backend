@@ -16,8 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Inicializa o cliente da Groq com a sua chave
-client = Groq(api_key="Gsk_W9UR0gJTlb7PjH4vSrakWGdyb3FYMyrDgXgRXYuieNksognRyxJS")
+# Inicializa o cliente da Groq com a chave corrigida (g minúsculo)
+client = Groq(api_key="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")
 
 class CandidatoPerfil(BaseModel):
     nome: str
