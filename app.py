@@ -7,13 +7,20 @@ st.set_page_config(
     layout="wide"
 )
 
-# Estilização CSS personalizada mantendo a identidade visual SouHQ
+# Estilização CSS personalizada para a identidade visual SouHQ
 st.markdown("""
     <style>
     /* Fundo geral da aplicação */
     .stApp {
         background-color: #0b0f0e;
         color: #f1f5f9;
+    }
+    
+    /* Centralização perfeita e destaque para o container de imagem */
+    [data-testid="stImage"] {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0rem;
     }
     
     /* Títulos principais */
@@ -90,20 +97,16 @@ if "tipo_perfil" not in st.session_state:
 # ==========================================
 if not st.session_state["logado"] and st.session_state["tipo_perfil"] is None:
     
-    # Exibição da logo via HTML centralizado
-    st.markdown("""
-        <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
-            <img
-                src="images/souhq-logo.png"
-                alt="SouHQ"
-                width="420"
-                style="
-                    display: block;
-                    max-width: 100%;
-                    height: auto;
-                ">
-        </div>
-    """, unsafe_allow_html=True)
+    # Exibição centralizada da logo com tamanho ideal via Streamlit nativo
+    col_l1, col_l2, col_l3 = st.columns([1, 1.5, 1])
+    with col_l2:
+        try:
+            st.image("images/souhq-logo.png", width=450)
+        except:
+            try:
+                st.image("logo_souhq.png", width=450)
+            except:
+                st.markdown("<h1 style='text-align: center; color: #ffffff; font-weight: 900;'>Sou<span style='color: #39FF14;'>HQ</span>✓</h1>", unsafe_allow_html=True)
 
     # Hero Section
     st.markdown('<p class="hero-title">A Nova Era das HRtechs & Soluções Inteligentes</p>', unsafe_allow_html=True)
